@@ -1,6 +1,3 @@
-# USAGE
-# python build_dataset.py
-
 # import the necessary packages
 from library import config
 from imutils import paths
@@ -11,18 +8,16 @@ import os
 # grab the paths to all input images in the original input directory
 # and shuffle them
 imagePaths = list(paths.list_images(config.ORIGINAL_DATASET))
-random.seed(42)
+random.seed(50)
 random.shuffle(imagePaths)
 
 # compute the training and testing split
-i = int(len(imagePaths) * config.TRAIN_SPLIT)
-trainPaths = imagePaths[:i]
-testPaths = imagePaths[i:]
-
-# we'll be using part of the training data for validation
-j = int(len(trainPaths) * config.VAL_SPLIT)
-valPaths = trainPaths[:j]
-trainPaths = trainPaths[j:]
+numImages = len(imagePaths)
+numTrain = int(numImages*config.TRAIN_RATIO)
+numTest = int(numImages*config.TEST_RATIO)
+trainPaths = imagePaths[:numTrain]
+testPaths = imagePaths[numTrain:numTrain+numTest]
+valPaths = imagePaths[numTrain+numTest:]
 
 # define the datasets that we'll be building
 datasets = [
@@ -43,21 +38,25 @@ for (dType, imagePaths, baseOutput) in datasets:
 
 	# loop over the input image paths
 	for inputPath in imagePaths:
-		# extract the filename of the input image and extract the
-		# class label ("0" for "negative" and "1" for "positive")
+		# extract the filename of the input image and extract the class label
 		filename = inputPath.split(os.path.sep)[-1]
-		label = inputPath.split(os.path.sep)[-2]
-		print("Filename: " + str(filename) + " and label: " + str(label))
+		labelString = inputPath.split(os.path.sep)[-2]
+
+		# convert label string to binary code: "0" for "benign" and "1" for "malignant"
+		label = 0
+		if (labelString == "benign"):
+			label = 0
+		elif (labelString == "malignant"):
+			label = 1
 
 		# build the path to the label directory
-		labelPath = os.path.sep.join([baseOutput, label])
+		labelPath = os.path.sep.join([baseOutput, str(label)])
 
 		# if the label output directory does not exist, create it
 		if not os.path.exists(labelPath):
 			print("[INFO] 'creating {}' directory".format(labelPath))
 			os.makedirs(labelPath)
 
-		# construct the path to the destination image and then copy
-		# the image itself
+		# construct the path to the destination image and then copy the image itself
 		p = os.path.sep.join([labelPath, filename])
 		shutil.copy2(inputPath, p)
