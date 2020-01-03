@@ -107,27 +107,23 @@ predIdxs = model.predict_generator(testGen, steps=(numTest//BATCH_SIZE)+1)
 predIdxs = np.argmax(predIdxs, axis=1)
 
 # display the classification report
-print("Shape of testGen: " + str(testGen.classes.shape) + " and shape of predIdxs: " + str(predIdxs.shape))
-if (testGen.classes.shape[0] > predIdxs.shape[0]):
-    testGen.classes=testGen.classes[0:predIdxs.shape[0]]
-elif (testGen.classes.shape[0] < predIdxs.shape[0]):
-    predIdxs=predIdxs[0:testGen.classes.shape[0]]
 print(classification_report(testGen.classes, predIdxs, target_names=testGen.class_indices.keys()))
 
-# compute the confusion matrix and derive the raw accuracy, sensitivity, specificity
-cm = confusion_matrix(testGen.classes, predIdxs)
-total = sum(sum(cm))
-acc = (cm[0,0]+cm[1,1])/total
-sensitivity = cm[0,0]/(cm[0,0]+cm[0,1])
-specificity = cm[1,1]/(cm[1,0]+cm[1,1])
+# create the confusion matrix and calculate the raw accuracy, sensitivity, specificity
+confMatrix = confusion_matrix(testGen.classes, predIdxs)
+totalValue = sum(sum(confMatrix))
+accuracy = (confMatrix[0,0]+confMatrix[1,1])/totalValue
+sensitivity = confMatrix[0,0]/(confMatrix[0,0]+confMatrix[0,1])
+specificity = confMatrix[1,1]/(confMatrix[1,0]+confMatrix[1,1])
 
 # display the confusion matrix, accuracy, sensitivity, and specificity
-print(cm)
-print("acc: {:.3f}".format(acc))
+print(confMatrix)
+print("accuracy: {:.3f}".format(accuracy))
 print("sensitivity: {:.3f}".format(sensitivity))
 print("specificity: {:.3f}".format(specificity))
 
 # plot the training loss and accuracy
+print("[INFO] Generating result graph ...")
 plt.style.use("ggplot")
 plt.figure()
 plt.plot(np.arange(0, NUM_EPOCHS), H.history["loss"], label="train_loss")
@@ -135,7 +131,10 @@ plt.plot(np.arange(0, NUM_EPOCHS), H.history["val_loss"], label="val_loss")
 plt.plot(np.arange(0, NUM_EPOCHS), H.history["accuracy"], label="train_accuracy")
 plt.plot(np.arange(0, NUM_EPOCHS), H.history["val_accuracy"], label="val_accuracy")
 plt.title("Training Loss and Accuracy on Dataset")
+plt.legend(loc="lower left")
 plt.xlabel("Epoch #")
 plt.ylabel("Loss/Accuracy")
-plt.legend(loc="lower left")
 plt.savefig(args["plot"])
+
+# finish the model
+print("[INFO] Deep Learning model is complete!")
