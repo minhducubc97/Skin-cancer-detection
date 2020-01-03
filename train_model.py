@@ -1,6 +1,6 @@
 # import the necessary packages
 import matplotlib
-from library.cancernet import CancerNet
+from library.dl_model import DLModel
 from library import config
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import LearningRateScheduler
@@ -83,8 +83,8 @@ valGen = valAug.flow_from_directory(
     batch_size=BATCH_SIZE
 )
 
-# initialize our CancerNet model and compile it
-model = CancerNet.build(width=48, height=48, depth=3, classes=2)
+# initialize the Deep Learning model and compile it
+model = DLModel.build(width=48, height=48, depth=3, classes=2)
 opt = Adagrad(learning_rate=INIT_LEARNRATE, decay=INIT_LEARNRATE/NUM_EPOCHS)
 model.compile(loss="binary_crossentropy", optimizer=opt, metrics=["accuracy"])
 
@@ -130,8 +130,8 @@ plt.plot(np.arange(0, NUM_EPOCHS), H.history["loss"], label="train_loss")
 plt.plot(np.arange(0, NUM_EPOCHS), H.history["val_loss"], label="val_loss")
 plt.plot(np.arange(0, NUM_EPOCHS), H.history["accuracy"], label="train_accuracy")
 plt.plot(np.arange(0, NUM_EPOCHS), H.history["val_accuracy"], label="val_accuracy")
-plt.title("Training Loss and Accuracy on Dataset")
-plt.legend(loc="lower left")
+plt.title("Training Loss and Accuracy")
+plt.legend(loc="upper right")
 plt.xlabel("Epoch #")
 plt.ylabel("Loss/Accuracy")
 plt.savefig(args["plot"])

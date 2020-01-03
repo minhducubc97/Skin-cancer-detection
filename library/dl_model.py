@@ -14,7 +14,7 @@ from keras.layers.core import Dropout
 from keras.layers.core import Dense
 from keras import backend as K
 
-class CancerNet:
+class DLModel:
 	@staticmethod
 	# Parameter list:
 	# - width, height: image size
@@ -22,9 +22,6 @@ class CancerNet:
 	# - classes: the number of classes our network will predict (2 by default)
 	# Return: the constructed network architecture
 	def build(width, height, depth, classes=2):
-		# initialize the model
-		model = Sequential()
-		
 		# "channels first" and "channels last"
 		if K.image_data_format() == "channels_first":
 			inputShape = (depth, height, width)
@@ -32,6 +29,9 @@ class CancerNet:
 		elif K.image_data_format() == "channels_last":
 			inputShape = (height, width, depth)
 			chanDim = -1
+
+		# initialize the model
+		model = Sequential()
 
 		# CONV => RELU => POOL
 		model.add(SeparableConv2D(32, (3, 3), padding="same",
