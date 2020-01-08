@@ -22,7 +22,7 @@ args = vars(ap.parse_args())
 
 # initialize the number of epochs, initial learning rate, and batch size
 NUM_EPOCHS = 40
-INIT_LEARNRATE = 0.1
+INIT_LEARNRATE = 0.09
 BATCH_SIZE = 32
 
 # calculate the total number of image paths in training, validation, and testing directories

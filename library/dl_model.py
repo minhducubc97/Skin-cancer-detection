@@ -1,8 +1,3 @@
-# STRUCTURE: 
-# - Uses exclusively 3x3 CONV filters, similar to VGGNet
-# - Stacks multiple 3x3 CONV filters on top of each other prior to performing max-pooling (again, similar to VGGNet)
-# - Unlike VGGNet, uses depthwise separable convolution rather than standard convolution layers (https://towardsdatascience.com/a-basic-introduction-to-separable-convolutions-b99ec3102728)
-
 # import the necessary packages
 from keras.models import Sequential
 from keras.layers.normalization import BatchNormalization
