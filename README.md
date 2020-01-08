@@ -3,18 +3,18 @@ A customized Deep Learning model that is capable of classifying malignant and be
 
 ## Dataset:
 
-Data is obtained from [Skin Cancer: Malignant vs. Benign](https://www.kaggle.com/fanconic/skin-cancer-malignant-vs-benign#10.jpg).
+Data is obtained from Kaggle website: [Skin Cancer: Malignant vs. Benign](https://www.kaggle.com/fanconic/skin-cancer-malignant-vs-benign#10.jpg).
 
 Sample data:
 
-<img src="https://github.com/minhducubc97/Skin-cancer-detection/tree/master/images/benign.jpg" height="250"/>
+<img src="https://github.com/minhducubc97/Skin-cancer-detection/blob/master/images/benign.jpg" height="250"/>
 
 *Figure 1: Benign skin mole.*
 <br/><br/>
 
-<img src="https://github.com/minhducubc97/X-Media-Player/tree/master/images/malignant.jpg" height="250"/>
+<img src="https://github.com/minhducubc97/Skin-cancer-detection/blob/master/images/malignant.jpg" height="250"/>
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*Figure 2: Malignant skin mole.*
+*Figure 2: Malignant skin mole.*
 <br/><br/>
 
 ## Architecture of Deep Learning Model:
